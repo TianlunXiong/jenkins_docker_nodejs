@@ -17,7 +17,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:14'
-                    args '-v $HOME/dist:/var/build'
+                    args '-v $HOME/dist:/var/dist'
                 }
             }
             steps {
@@ -29,7 +29,8 @@ pipeline {
                 sh 'npm -v'
                 sh 'npm install'
                 sh 'npm run compile'
-                sh 'cp ./build /var/build'
+                sh 'ls -ls'
+                sh 'cp -r ./dist /var/dist'
             }
         }
         stage('Test') {
