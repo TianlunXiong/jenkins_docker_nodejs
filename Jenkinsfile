@@ -5,7 +5,8 @@ pipeline {
         stage('Clone') {
             cleanWs()
             steps {
-                sh "git clone ${params.git_url}"
+                sh "git clone ${params.git_url} app"
+                sh "cd ./app"
             }
         }
         stage('Build') {
