@@ -14,8 +14,10 @@ pipeline {
         }
         stage('Build image') {
             agent {
-                image 'node:14'
-                args '-v ./dist:~/build'
+                docker {
+                    image 'node:14'
+                    args '-v ./dist:~/build'
+                }
             }
             steps {
                 echo 'Building..'
