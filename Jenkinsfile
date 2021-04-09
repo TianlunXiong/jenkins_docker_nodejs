@@ -26,6 +26,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                sh 'docker info'
             }
         }
     }
