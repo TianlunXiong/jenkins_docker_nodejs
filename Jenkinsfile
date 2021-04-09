@@ -4,19 +4,23 @@ pipeline {
         registryCredential = 'yenigul-dockerhub'
         dockerImage = ''
     }
-    agent { dockerfile true }
+    agent none
 
     stages {
-        stage('Clone') {
+        stage('Clean') {
             steps {
                 cleanWs()
-                sh 'git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"'
-                sh "git clone ${params.git_url} ."
             }
         }
-        stage('Build') {
+        stage('Build image') {
+            agent {
+                image 'node:14'
+                args '-v ./dist:~/build'
+            }
             steps {
                 echo 'Building..'
+                sh 'git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"'
+                sh "git clone ${params.git_url} ."
                 sh 'node -v'
                 sh 'npm -v'
                 sh 'npm install'
