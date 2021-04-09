@@ -15,7 +15,7 @@ pipeline {
                 sh "cd ./app"
                 sh 'node -v'
                 sh 'npm -v'
-                sh 'dirs'
+                sh 'ls -la'
             }
         }
         stage('Test') {
