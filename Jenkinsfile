@@ -6,13 +6,14 @@ pipeline {
             steps {
                 cleanWs()
                 sh "git clone ${params.git_url} app"
-                sh "cd ./app"
             }
         }
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh "cd ./app"
                 sh 'node -v'
+                sh 'npm -v'
                 sh 'npm install'
                 sh 'npm run compile'
             }
