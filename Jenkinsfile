@@ -17,20 +17,18 @@ pipeline {
             agent {
                 docker {
                     image 'node:14'
-                    args '-v $HOME/dist:/var/dist'
+                    args '-v $HOME/app:/var/app'
                 }
             }
             steps {
                 cleanWs()
                 echo 'Building..'
                 sh 'git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"'
-                sh "git clone ${params.git_url} ."
+                sh "git clone ${params.git_url} app"
                 sh 'node -v'
                 sh 'npm -v'
-                sh 'npm install'
-                sh 'npm run compile'
-                sh 'ls -ls'
-                sh 'cp -r ./dist /var/dist'
+                sh 'cd ./app && npm install && npm run compile'
+                sh 'cp -r ./app /var/app'
             }
         }
         stage('Test') {
@@ -38,17 +36,10 @@ pipeline {
                 echo 'Testing..'
             }
         }
-        stage('Building image') {
-            steps {
-                script {
-                    dockerImage = docker.build imagename
-                }
-            }
-        }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'docker info'
+                sh 'ls -ls'
             }
         }
     }
