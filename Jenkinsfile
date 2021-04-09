@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                echo "git clone from ${params.git_url}"
+                sh "git clone ${params.git_url}"
             }
         }
         stage('Build') {
