@@ -1,4 +1,9 @@
 pipeline {
+    environment {
+        imagename = "tainlx/test_1"
+        registryCredential = 'yenigul-dockerhub'
+        dockerImage = ''
+    }
     agent { dockerfile true }
 
     stages {
@@ -21,6 +26,13 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+            }
+        }
+        stage('Building image') {
+            steps {
+                script {
+                    dockerImage = docker.build imagename
+                }
             }
         }
         stage('Deploy') {
