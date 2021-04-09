@@ -4,7 +4,7 @@ pipeline {
         registryCredential = 'yenigul-dockerhub'
         dockerImage = ''
     }
-    agent none
+    agent any
 
     stages {
         stage('Build image') {
