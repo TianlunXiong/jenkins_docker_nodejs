@@ -7,11 +7,17 @@ pipeline {
     agent any
 
     stages {
+        stage('Clean') {
+            steps {
+                cleanWs()
+                echo '清理完成'
+            }
+        }
         stage('Build image') {
             agent {
                 docker {
                     image 'node:14'
-                    args '-v $HOME/dist:/root/dist'
+                    args '-v $HOME/dist:/var/build'
                 }
             }
             steps {
@@ -23,6 +29,7 @@ pipeline {
                 sh 'npm -v'
                 sh 'npm install'
                 sh 'npm run compile'
+                sh 'cp ./build /var/build'
             }
         }
         stage('Test') {
