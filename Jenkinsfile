@@ -3,8 +3,8 @@ pipeline {
 
     stages {
         stage('Clone') {
-            cleanWs()
             steps {
+                cleanWs()
                 sh "git clone ${params.git_url} app"
                 sh "cd ./app"
             }
