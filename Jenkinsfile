@@ -17,7 +17,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:14'
-                    args '-v $HOME/app:/var/app'
+                    args '-v $HOME/app:/var/app -v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
             steps {
@@ -27,8 +27,7 @@ pipeline {
                 sh "git clone ${params.git_url} app"
                 sh 'node -v'
                 sh 'npm -v'
-                sh 'cd ./app && npm install && npm run compile'
-                sh 'cp -r ./app /var/app'
+                sh 'docker version'
             }
         }
         stage('Test') {
