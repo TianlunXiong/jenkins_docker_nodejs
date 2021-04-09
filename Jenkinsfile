@@ -6,15 +6,16 @@ pipeline {
             steps {
                 cleanWs()
                 sh 'git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"'
-                sh "git clone ${params.git_url} app"
+                sh "git clone ${params.git_url} ."
             }
         }
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh "cd ./app && ls -la"
                 sh 'node -v'
                 sh 'npm -v'
+                sh 'npm install'
+                sh 'npm run compile'
             }
         }
         stage('Test') {
