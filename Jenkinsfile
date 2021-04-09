@@ -39,7 +39,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'cd $HOME/app && ls -ls'
+                sh 'cd $HOME && ls -ls'
             }
         }
     }
