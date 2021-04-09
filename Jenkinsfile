@@ -3,6 +3,7 @@ pipeline {
 
     stages {
         stage('Clone') {
+            cleanWs()
             steps {
                 sh "git clone ${params.git_url}"
             }
@@ -24,6 +25,17 @@ pipeline {
             steps {
                 echo 'Deploying....'
             }
+        }
+    }
+    post {
+        // Clean after build
+        always {
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
         }
     }
 }
