@@ -12,10 +12,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh "cd ./app"
+                sh "cd ./app && ls -la"
                 sh 'node -v'
                 sh 'npm -v'
-                sh 'ls -la'
             }
         }
         stage('Test') {
