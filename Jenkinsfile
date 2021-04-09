@@ -11,7 +11,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:14'
-                    args '-v ./dist:/root/dist'
+                    args '-v $HOME/dist:/root/dist'
                 }
             }
             steps {
