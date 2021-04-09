@@ -5,6 +5,7 @@ pipeline {
         stage('Clone') {
             steps {
                 cleanWs()
+                sh 'git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"'
                 sh "git clone ${params.git_url} app"
             }
         }
