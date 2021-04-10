@@ -1,0 +1,8 @@
+{
+  "name": "jenkins_docker_nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/TianlunXiong/jenkins_docker_nodejs.git",
+  "author": "tainlx <418219627@qq.com>",
+  "license": "MIT"
+}
