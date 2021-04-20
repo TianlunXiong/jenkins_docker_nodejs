@@ -14,7 +14,7 @@ pipeline {
     
     stages {
             stage('拉取代码') {
-                if (params.git == '') echo '请填写项目git地址!' throw
+                when { expression { return params.git != '' } }
                 steps {
                     deleteDir()
                     echo '已清理工作目录'
