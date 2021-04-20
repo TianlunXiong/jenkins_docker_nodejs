@@ -78,7 +78,6 @@ node {
     remote.password = '1313567'
     remote.allowAnyHosts = true
     stage('部署项目') {
-        when { expression { return params.git != '' } }
         sshCommand remote: remote, command: "touch miu.txt"
     }
 }
