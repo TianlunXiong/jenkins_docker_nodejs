@@ -54,11 +54,7 @@ pipeline {
                         def commitTag = sh(returnStdout: true, script: 'git log --oneline -1 | awk \'{printf \$1}\'')
                         def tag = "tainlx/test:${commitTag}"
 
-                        sshCommand remote: remote, command: "
-                            echo '开始部署'
-                            docker pull ${tag}
-                            docker run -p 8081:8080 --name xcloud -d ${tag}
-                        "
+                        sshCommand remote: remote, command: "docker pull ${tag} && docker run -p 8081:8080 --name xcloud -d ${tag}"
                     }
                 }
             }
