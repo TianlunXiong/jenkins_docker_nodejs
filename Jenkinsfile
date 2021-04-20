@@ -19,19 +19,19 @@ pipeline {
             stage('构建镜像') {
                 steps {
                     sh 'ls -ls'
-                    def commitTag = sh(returnStdout: true, script: 'git log --oneline -1 | awk \'{printf \$1}\'')
-                    def tag = "tainlx/test:${commitTag}"
-
                     script {
+                        def tag = "tainlx/test:${commitTag}"
+                        def commitTag = sh(returnStdout: true, script: 'git log --oneline -1 | awk \'{printf \$1}\'')
                         def dockerImage = docker.build(tag)
                         docker.withRegistry('', registryCredential) {
                             dockerImage.push()
                         }
+                        sh 'docker images'
+                        sh "docker image rm -f ${tag}"
+                        sh 'docker images'
+                        sh '已删除本地镜像'
                     }
-                    sh 'docker images'
-                    sh "docker image rm -f ${tag}"
-                    sh 'docker images'
-                    sh '已删除本地镜像'
+
                 }
             }
     }
