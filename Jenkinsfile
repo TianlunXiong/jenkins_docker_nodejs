@@ -1,5 +1,7 @@
 pipeline {
     agent any
+
+    options{  timestamps () }
     
     environment {
         registryCredential = 'c2980fa3-ab4d-4879-ab51-7ffeae140a2a'
@@ -33,6 +35,26 @@ pipeline {
                     }
                 }
             }
+    }
+    post {
+        success {
+            emailext (
+                subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                    <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+                to: "jellyxiong@outlook.com",
+                from: "418219627@qq.com"
+            )
+        }
+        failure {
+            emailext (
+                subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                    <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+                to: "jellyxiong@outlook.com",
+                from: "418219627@qq.com"
+            )
+        }
     }
 }
 
