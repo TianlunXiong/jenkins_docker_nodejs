@@ -11,6 +11,7 @@ pipeline {
                     cleanWs()
                     withDockerContainer(image: "node:latest") {
                         sh "git config --global url.\"https://ghproxy.com/https://github.com\".insteadOf \"https://github.com\""
+                        sh "git config --global --list"
                         sh "git clone ${params.git_url} ."
                     }
                 }
