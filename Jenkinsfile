@@ -29,9 +29,8 @@ pipeline {
                         sh 'docker images'
                         sh "docker image rm -f ${tag}"
                         sh 'docker images'
-                        sh '已删除本地镜像'
+                        sh 'echo 已删除本地镜像'
                     }
-
                 }
             }
     }
