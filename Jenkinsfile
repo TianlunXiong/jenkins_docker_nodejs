@@ -51,7 +51,7 @@ pipeline {
         }
         success {
             script {
-                if (params.email !== '') {
+                if (params.email != '') {
                     emailext (
                         subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                         body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -64,7 +64,7 @@ pipeline {
         }
         failure {
             script {
-                if (params.email !== '') {
+                if (params.email != '') {
                     emailext (
                         subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                         body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
