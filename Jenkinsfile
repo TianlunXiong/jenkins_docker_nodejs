@@ -43,6 +43,25 @@ pipeline {
                     }
                 }
             }
+
+            stage('部署应用') {
+                when { expression { return params.git != '' } }
+                steps {
+                    sh 'ls -ls'
+                    script {
+                        def remote = [:]
+                        remote.name = 'test'
+                        remote.host = '192.168.1.17'
+                        remote.user = 'root'
+                        remote.password = '1313567'
+                        remote.allowAnyHosts = true
+
+                        sshCommand remote: remote, command: "touch miu.txt"
+                    }
+                }
+            }
+
+
     }
     post {
         always {
@@ -78,17 +97,5 @@ pipeline {
             }
             
         }
-    }
-}
-
-node {
-    def remote = [:]
-    remote.name = 'test'
-    remote.host = '192.168.1.17'
-    remote.user = 'root'
-    remote.password = '1313567'
-    remote.allowAnyHosts = true
-    stage('部署项目') {
-        sshCommand remote: remote, command: "touch miu.txt"
     }
 }
