@@ -10,7 +10,8 @@ pipeline {
     stages {
             stage('拉取代码') {
                 steps {
-                    cleanWs()
+                    deleteDir()
+                    echo '已清理工作目录'
                     withDockerContainer(image: "node:latest") {
                         sh "git config --global url.\"https://ghproxy.com/https://github.com\".insteadOf \"https://github.com\""
                         sh "git config --global --list"
@@ -37,6 +38,10 @@ pipeline {
             }
     }
     post {
+        always {
+            deleteDir()
+            echo '已清理工作目录'
+        }
         success {
             emailext (
                 subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
