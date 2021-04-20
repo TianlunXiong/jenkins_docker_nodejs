@@ -20,7 +20,8 @@ pipeline {
                     sh 'ls -ls'
 
                     script {
-                        def dockerImage = docker.build('tainlx/test:latest')
+                        def a = "tainlx/test:latest"
+                        def dockerImage = docker.build(a)
                         docker.withRegistry('', registryCredential) {
                             dockerImage.push()
                         }
