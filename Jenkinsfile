@@ -4,8 +4,8 @@ pipeline {
     options{  timestamps () }
 
     parameters {
-        string(name: 'git', defaultValue: '', description: '项目git地址')
-        string(name: 'email', defaultValue: '', description: '邮件通知地址')
+        // string(name: 'git', defaultValue: '', description: '项目git地址')
+        // string(name: 'email', defaultValue: '', description: '邮件通知地址')
     }
     
     environment {
@@ -60,8 +60,6 @@ pipeline {
                     }
                 }
             }
-
-
     }
     post {
         always {
