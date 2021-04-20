@@ -14,10 +14,7 @@ pipeline {
     
     stages {
             stage('拉取代码') {
-                when {
-                    expression { return params.git != '' }
-                    beforeAgent = true
-                }
+                when { expression { return params.git != '' } }
                 steps {
                     deleteDir()
                     echo '已清理工作目录'
@@ -29,6 +26,7 @@ pipeline {
                 }
             }
             stage('构建镜像') {
+                when { expression { return params.git != '' } }
                 steps {
                     sh 'ls -ls'
                     script {
@@ -52,6 +50,7 @@ pipeline {
             echo '已清理工作目录'
         }
         success {
+            when { expression { return params.git != '' } }
             emailext (
                 subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                 body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -61,6 +60,7 @@ pipeline {
             )
         }
         failure {
+            when { expression { return params.git != '' } }
             emailext (
                 subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                 body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -80,6 +80,7 @@ node {
     remote.password = '1313567'
     remote.allowAnyHosts = true
     stage('部署项目') {
+        when { expression { return params.git != '' } }
         sshCommand remote: remote, command: "touch miu.txt"
     }
 }
