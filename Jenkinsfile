@@ -59,6 +59,7 @@ pipeline {
                         to: "jellyxiong@outlook.com",
                         from: "418219627@qq.com"
                     )
+                    echo '已发送通知邮件'
                 }
             }
         }
@@ -72,6 +73,7 @@ pipeline {
                         to: "jellyxiong@outlook.com",
                         from: "418219627@qq.com"
                     )
+                    echo '已发送通知邮件'
                 }
             }
             
