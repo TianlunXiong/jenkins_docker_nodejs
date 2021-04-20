@@ -51,6 +51,8 @@ pipeline {
                         remote.password = '1313567'
                         remote.allowAnyHosts = true
 
+                        echo tag
+
                         sshCommand remote: remote, command: "touch miu.txt"
                     }
                 }
