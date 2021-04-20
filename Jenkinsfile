@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     options{  timestamps () }
-
-    parameters {
-        // string(name: 'git', defaultValue: '', description: '项目git地址')
-        // string(name: 'email', defaultValue: '', description: '邮件通知地址')
-    }
     
     environment {
         registryCredential = 'c2980fa3-ab4d-4879-ab51-7ffeae140a2a'
