@@ -21,9 +21,8 @@ pipeline {
                     sh 'ls -ls'
 
                     script {
-                        def commitTag = sh(returnStdout: true, script: 'git log --oneline -1 | awk \'{print \$1}\'')
+                        def commitTag = sh(returnStdout: true, script: 'git log --oneline -1 | awk \'{printf \$1}\'')
                         def tag = "tainlx/test:${commitTag}"
-                        echo tag
                         def dockerImage = docker.build(tag)
                         docker.withRegistry('', registryCredential) {
                             dockerImage.push()
