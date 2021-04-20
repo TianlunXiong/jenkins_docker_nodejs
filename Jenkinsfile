@@ -14,7 +14,10 @@ pipeline {
     
     stages {
             stage('拉取代码') {
-                when { expression { return params.git != '' } }
+                when {
+                    expression { return params.git != '' }
+                    beforeAgent = true
+                }
                 steps {
                     deleteDir()
                     echo '已清理工作目录'
