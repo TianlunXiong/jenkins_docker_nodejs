@@ -1,45 +1,46 @@
 pipeline {
-    environment {
-        imagename = "tainlx/test_1"
-        registryCredential = 'yenigul-dockerhub'
-        dockerImage = ''
-    }
     agent any
-
+    
+    environment {
+        registryCredential = 'c2980fa3-ab4d-4879-ab51-7ffeae140a2a'
+    }
+    
     stages {
-        stage('Clean') {
-            steps {
-                cleanWs()
-                echo '清理完成'
-            }
-        }
-        stage('Build image') {
-            agent {
-                docker {
-                    image 'node:14'
-                    args '-v $HOME/app:/var/app -v /var/run/docker.sock:/var/run/docker.sock'
+            stage('拉取代码') {
+                steps {
+                    cleanWs()
+                    withDockerContainer(image: "node:14.16.1-alpine3.10") {
+                        sh 'git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"'
+                        sh "git clone ${params.git_url} ."
+                    }
                 }
             }
-            steps {
-                cleanWs()
-                echo 'Building..'
-                sh 'git config --global url."https://ghproxy.com/https://github.com".insteadOf "https://github.com"'
-                sh "git clone ${params.git_url} app"
-                sh 'node -v'
-                sh 'npm -v'
-                sh 'docker version'
+            stage('构建镜像') {
+                steps {
+                    sh 'ls -ls'
+
+                    script {
+                        def dockerImage = docker.build('tainlx/test:latest')
+                        docker.withRegistry('', registryCredential) {
+                            dockerImage.push()
+                        }
+                    }
+                    sh 'docker images'
+                    sh 'docker image rm -f tainlx/test'
+                    sh 'docker images'
+                }
             }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                sh 'cd $HOME && ls -ls'
-            }
-        }
+    }
+}
+
+node {
+    def remote = [:]
+    remote.name = 'test'
+    remote.host = '192.168.1.17'
+    remote.user = 'root'
+    remote.password = '1313567'
+    remote.allowAnyHosts = true
+    stage('部署项目') {
+        sshCommand remote: remote, command: "touch miu.txt"
     }
 }
