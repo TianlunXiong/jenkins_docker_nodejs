@@ -57,7 +57,7 @@ pipeline {
                         sshCommand remote: remote, command: """
                             docker ps
                             docker rm -f xcloud
-                            docker pull ${tag} && docker run -p 8081:8080 --name xcloud -d ${tag}
+                            docker pull ${tag} && docker run -p 8081:8080 8082:8082 --name xcloud -d ${tag}
                         """
                     }
                 }
